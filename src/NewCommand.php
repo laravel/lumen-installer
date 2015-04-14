@@ -43,19 +43,6 @@ class NewCommand extends Command
              ->extract($zipFile, $directory)
              ->cleanUp($zipFile);
 
-        $composer = $this->findComposer();
-
-        $commands = [
-            $composer.' run-script post-install-cmd',
-            $composer.' run-script post-create-project-cmd',
-        ];
-
-        $process = new Process(implode(' && ', $commands), $directory, null, null, null);
-
-        $process->run(function ($type, $line) use ($output) {
-            $output->write($line);
-        });
-
         $output->writeln('<comment>Application ready! Build something amazing.</comment>');
     }
 
@@ -130,19 +117,5 @@ class NewCommand extends Command
         @unlink($zipFile);
 
         return $this;
-    }
-
-    /**
-     * Get the composer command for the environment.
-     *
-     * @return string
-     */
-    protected function findComposer()
-    {
-        if (file_exists(getcwd().'/composer.phar')) {
-            return '"'.PHP_BINARY.'" composer.phar';
-        }
-
-        return 'composer';
     }
 }
