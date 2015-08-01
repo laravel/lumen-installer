@@ -1,9 +1,10 @@
-<?php namespace Lumen\Installer\Console;
+<?php
+
+namespace Lumen\Installer\Console;
 
 use ZipArchive;
 use RuntimeException;
 use GuzzleHttp\Client;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,9 +19,10 @@ class NewCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('new')
-             ->setDescription('Create a new Lumen application.')
-             ->addArgument('name', InputArgument::REQUIRED);
+        $this
+            ->setName('new')
+            ->setDescription('Create a new Lumen application.')
+            ->addArgument('name', InputArgument::REQUIRED);
     }
 
     /**
