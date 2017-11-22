@@ -39,8 +39,7 @@ class NewCommand extends Command
         }
 
         $this->verifyApplicationDoesntExist(
-            $directory = getcwd().'/'.$input->getArgument('name'),
-            $output
+            $directory = getcwd().'/'.$input->getArgument('name')
         );
 
         $output->writeln('<info>Crafting application...</info>');
@@ -58,7 +57,7 @@ class NewCommand extends Command
      * @param  string  $directory
      * @return void
      */
-    protected function verifyApplicationDoesntExist($directory, OutputInterface $output)
+    protected function verifyApplicationDoesntExist($directory)
     {
         if (is_dir($directory)) {
             throw new RuntimeException('Application already exists!');
