@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,7 +24,8 @@ class NewCommand extends Command
         $this
             ->setName('new')
             ->setDescription('Create a new Lumen application.')
-            ->addArgument('name', InputArgument::OPTIONAL);
+            ->addArgument('name', InputArgument::OPTIONAL)
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
     }
 
     /**
@@ -39,9 +41,11 @@ class NewCommand extends Command
             throw new RuntimeException('The Zip PHP extension is not installed. Please install it and try again.');
         }
 
-        $this->verifyApplicationDoesntExist(
-            $directory = ($input->getArgument('name')) ? getcwd().'/'.$input->getArgument('name') : getcwd()
-        );
+        $directory = ($input->getArgument('name')) ? getcwd().'/'.$input->getArgument('name') : getcwd();
+
+        if (! $input->getOption('force')) {
+            $this->verifyApplicationDoesntExist($directory);
+        }
 
         $output->writeln('<info>Crafting application...</info>');
 
