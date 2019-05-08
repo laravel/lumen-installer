@@ -23,7 +23,7 @@ class NewCommand extends Command
         $this
             ->setName('new')
             ->setDescription('Create a new Lumen application.')
-            ->addArgument('name', InputArgument::REQUIRED);
+            ->addArgument('name', InputArgument::OPTIONAL);
     }
 
     /**
@@ -39,9 +39,9 @@ class NewCommand extends Command
             throw new RuntimeException('The Zip PHP extension is not installed. Please install it and try again.');
         }
 
-        $this->verifyApplicationDoesntExist(
-            $directory = getcwd().'/'.$input->getArgument('name')
-        );
+        $directory = ($input->getArgument('name')) ? getcwd().'/'.$input->getArgument('name') : getcwd();
+
+        $this->verifyApplicationDoesntExist($directory);
 
         $output->writeln('<info>Crafting application...</info>');
 
@@ -82,7 +82,7 @@ class NewCommand extends Command
      */
     protected function verifyApplicationDoesntExist($directory)
     {
-        if (is_dir($directory)) {
+        if ((is_dir($directory) || is_file($directory)) && $directory !== getcwd()) {
             throw new RuntimeException('Application already exists!');
         }
     }
