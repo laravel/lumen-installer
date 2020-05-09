@@ -184,13 +184,13 @@ class NewCommand extends Command
      */
     public function SignalHandlerWindows(int $signal)
     {
-         switch ($signal) {
-             case PHP_WINDOWS_EVENT_CTRL_C:
-             case PHP_WINDOWS_EVENT_CTRL_BREAK:
-                 exit;
-                 break;
+        switch ($signal) {
+            case PHP_WINDOWS_EVENT_CTRL_C:
+            case PHP_WINDOWS_EVENT_CTRL_BREAK:
+                exit;
+                break;
 
-             default:
-         }
+            default:
+        }
     }
 }
