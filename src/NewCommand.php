@@ -166,13 +166,13 @@ class NewCommand extends Command
     /**
      * Make it possible to interrupt execution in Windows mintty.
      *
-     *@return void
+     * @return void
      */
     protected function setSignalHandler()
     {
         if (function_exists('\sapi_windows_set_ctrl_handler')) {
             // Windows - requires php 7.4
-            \sapi_windows_set_ctrl_handler([$this, 'SignalHandlerWindows']);
+            \sapi_windows_set_ctrl_handler([$this, 'handleWindowsSignals']);
         }
     }
 
@@ -182,15 +182,12 @@ class NewCommand extends Command
      * @param  int  $signal
      * @return void
      */
-    public function SignalHandlerWindows(int $signal)
+    public function handleWindowsSignals($signal)
     {
         switch ($signal) {
             case PHP_WINDOWS_EVENT_CTRL_C:
             case PHP_WINDOWS_EVENT_CTRL_BREAK:
                 exit;
-                break;
-
-            default:
         }
     }
 }
