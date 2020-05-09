@@ -187,7 +187,7 @@ class NewCommand extends Command
         switch ($signal) {
             case PHP_WINDOWS_EVENT_CTRL_C:
             case PHP_WINDOWS_EVENT_CTRL_BREAK:
-                exit;
+                exit(130);
         }
     }
 }
