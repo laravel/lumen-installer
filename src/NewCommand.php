@@ -69,6 +69,19 @@ class NewCommand extends Command
             $output->write($line);
         });
 
+        // copy config
+        $commands = [
+            'cp', '-r', $directory.'/vendor/laravel/lumen-framework/config', $directory,
+        ];
+
+        $process = new Process($commands, $directory, null, null, null);
+
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            $process->setTty(true);
+        }
+
+        $process->run();
+
         $output->writeln('<comment>Application ready! Build something amazing.</comment>');
 
         return 0;
