@@ -31,10 +31,14 @@ class NewCommand extends Command
      *
      * @param  InputInterface  $input
      * @param  OutputInterface  $output
-     * @return void
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (version_compare(PHP_VERSION, '7.3.0', '<')) {
+            throw new RuntimeException('The Lumen installer requires PHP 7.3.0 or greater. Please use "composer create-project laravel/lumen" instead.');
+        }
+
         if (! class_exists('ZipArchive')) {
             throw new RuntimeException('The Zip PHP extension is not installed. Please install it and try again.');
         }
